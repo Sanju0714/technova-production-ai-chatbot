@@ -306,7 +306,6 @@ Create a `.env` file:
 
 ```env
 NVIDIA_API_KEY=your_nvidia_api_key
-
 LANGSMITH_TRACING=true
 LANGSMITH_API_KEY=your_langsmith_api_key
 LANGSMITH_PROJECT=technova-bot-your-name
