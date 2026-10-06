@@ -1,162 +1,92 @@
-# TechNova Customer Support Chatbot
+# TechNova Production-Ready AI Customer Support Chatbot
 
-A production-oriented customer support chatbot built using LangChain, LangGraph, NVIDIA-hosted LLMs, and LangSmith.
+A production-oriented customer support chatbot built with **LangGraph, LangChain, NVIDIA NIM, and LangSmith**.
 
-## Project Overview
+The chatbot supports order-status lookup, returns, warranty, and shipping questions while maintaining conversation memory, handling failures, tracing executions, evaluating response quality, and monitoring latency, token usage, and errors.
 
-TechNova is an electronics store that sells laptops, phones, and accessories.
+## 🚀 Features
 
-The chatbot can help customers with:
+- **LangGraph agent workflow** with tool calling
+- **NVIDIA Nemotron 3 Super 120B A12B** LLM
+- **Order-status lookup tool**
+- **Returns, warranty, and shipping policy tool**
+- **Conversation memory** using LangGraph `MemorySaver`
+- **LangSmith tracing** for LLM, tools, graph nodes, latency, and tokens
+- **Input guardrail** for irrelevant or unsafe requests
+- **Fallback handling** for model failures
+- **Timeout and retry handling**
+- **Tool-failure handling**
+- **Friendly API failure responses**
+- **LangSmith LLM-as-a-judge evaluation**
+- **Streamlit chat interface**
+- **LangSmith production dashboard**
+- **Error-rate alerting**
+- **Token optimization experiment**
 
-- Order status
-- Returns
-- Warranty
-- Shipping
-- Conversation follow-up questions
+## 🏗️ Architecture
 
-The project demonstrates stateful conversations, tool calling, conversation memory, LangSmith observability, latency monitoring, token usage analysis, cost estimation, fault handling, and model evaluation.
+```text
+                    User
+                      │
+                      ▼
+                 ┌─────────┐
+                 │Guardrail│
+                 └────┬────┘
+                      │
+                      ▼
+                 ┌─────────┐
+                 │  Agent  │
+                 │  LLM    │
+                 └────┬────┘
+                      │
+                 Tool required?
+                    /     \
+                  No       Yes
+                  │         │
+                  ▼         ▼
+               Answer    ┌─────────┐
+                         │  Tool   │
+                         └────┬────┘
+                              │
+                              ▼
+                         ┌─────────┐
+                         │  Agent  │
+                         │  LLM    │
+                         └────┬────┘
+                              │
+                              ▼
+                           Answer
+```
 
-## Features
+## 🧰 Tech Stack
 
-- Stateful chatbot using LangGraph
-- Conversation memory using MemorySaver
-- Order status lookup
-- Return, warranty, and shipping policy lookup
-- Tool calling
-- LangSmith tracing
-- Custom traced helper function
-- Run metadata and tags
-- Latency benchmarking
-- P50 and P95 latency analysis
-- Time-to-first-token measurement
-- Token usage tracking
-- Cost estimation
-- Token optimization
-- Fault injection and error handling
-- LangSmith evaluation dataset
-- LLM-as-judge evaluation
-- Human feedback
-- Model comparison
+| Technology | Purpose |
+|---|---|
+| Python | Application development |
+| LangChain | LLM and tool integration |
+| LangGraph | Stateful agent workflow |
+| NVIDIA NIM | Hosted NVIDIA inference |
+| Nemotron 3 Super 120B A12B | Production LLM |
+| LangSmith | Tracing, evaluation and monitoring |
+| Streamlit | Chat UI |
+| Pandas | Benchmark analysis |
 
-## Technology Stack
+## 🔧 Available Tools
 
-- Python 3.12
-- LangChain
-- LangGraph
-- LangChain OpenAI integration
-- NVIDIA NIM API
-- LangSmith
-- Pandas
-- python-dotenv
+### `get_order_status`
 
-## Project Structure
-
-technova/
-├── .env
-├── .env.example
-├── .gitignore
-├── requirements.txt
-├── README.md
-│
-├── app/
-│   ├── tools.py
-│   └── graph.py
-│
-├── experiments/
-│   ├── latency.py
-│   ├── tokens.py
-│   ├── part_e_error_rate.py
-│   ├── evaluate_models.py
-│   └── add_feedback.py
-│
-└── results/
-    └── summary.csv
-
-## Setup
-
-### 1. Create Virtual Environment
-
-python -m venv venv
-
-### 2. Activate Virtual Environment
-
-Windows:
-
-venv\Scripts\activate
-
-### 3. Install Dependencies
-
-pip install -r requirements.txt
-
-## Environment Variables
-
-Create a .env file in the project root.
-
-Add the following:
-
-NVIDIA_API_KEY=your_nvidia_api_key
-LANGSMITH_TRACING=true
-LANGSMITH_API_KEY=your_langsmith_api_key
-LANGSMITH_PROJECT=technova-bot-sanjana
-
-Never commit the .env file to GitHub.
-
-The .env.example file contains placeholder values.
-
-## Running the Chatbot
-
-Run:
-
-python -m app.graph
+Looks up a TechNova order using its order ID.
 
 Example:
 
-TechNova Support Chatbot
-Type 'exit' to stop.
+```text
+TN1001
+→ Laptop Pro 14
+→ Shipped
+→ ETA: 2 days
+```
 
-You: What is the status of order TN1001?
-
-Assistant: Order TN1001: Item: Laptop Pro 14, Status: Shipped, ETA: 2 days
-
-You: What was the item in that order?
-
-Assistant: The item in order TN1001 was Laptop Pro 14.
-
-The second question demonstrates conversation memory using LangGraph.
-
-Type exit to stop the application.
-
-## Mock Data
-
-The chatbot uses the following TechNova mock orders:
-
-| Order ID | Item | Status | ETA |
-|---|---|---|---|
-| TN1001 | Laptop Pro 14 | Shipped | 2 days |
-| TN1002 | Noise-cancel Earbuds | Processing | 5 days |
-| TN1003 | Phone X | Delivered | - |
-
-### Policies
-
-Returns:
-
-Returns are accepted within 30 days in the original packaging.
-
-Warranty:
-
-Electronics come with a 1-year manufacturer warranty.
-
-Shipping:
-
-Free shipping is available for orders above Rs.999. Standard delivery takes 3-5 days.
-
-## Tools
-
-### get_order_status
-
-Retrieves the status, item name, and estimated delivery time for a TechNova order.
-
-### get_policy
+### `get_policy`
 
 Retrieves TechNova policies for:
 
@@ -164,359 +94,319 @@ Retrieves TechNova policies for:
 - Warranty
 - Shipping
 
-## LangGraph Workflow
+## 🧠 Conversation Memory
 
-The chatbot uses a LangGraph state graph consisting of:
-
-- Agent node
-- Tools node
-- Tool routing
-- Conversation state
-- MemorySaver checkpointing
-
-The workflow is:
-
-START → Agent → Tools → Agent → END
-
-If the agent determines that a tool is required, LangGraph routes the request to the appropriate tool. The tool result is then returned to the agent to generate the final response.
-
-## Conversation Memory
-
-Conversation memory is implemented using LangGraph's MemorySaver.
-
-A thread ID is used to maintain conversation state.
+The chatbot uses LangGraph `MemorySaver` with a `thread_id` to maintain conversation state.
 
 Example:
 
-You: What is the status of TN1001?
+```text
+User: What is the status of TN1001?
 
-Assistant: Order TN1001 is shipped. The item is Laptop Pro 14 and the ETA is 2 days.
+Assistant: Order TN1001 is shipped...
 
-You: What was the item?
+User: What was the item?
 
 Assistant: The item was Laptop Pro 14.
+```
 
-## LangSmith Observability
+## 📊 Performance Results
 
-LangSmith is used to trace and monitor the chatbot.
+### Model Comparison
 
-The project tracks:
+The same 20-question benchmark was run against both models.
 
-- LangGraph execution
-- Agent execution
-- LLM calls
-- Tool calls
-- Latency
-- Token usage
-- Tags
-- Metadata
-- Session information
-- Thread information
-- Custom traced functions
+| Model | Average | P50 | P95 | Max | Quality |
+|---|---:|---:|---:|---:|---:|
+| Nemotron 3.5 Lightning 30B | 18.85s | 11.77s | 61.32s | 89.82s | 5/5 |
+| Nemotron 3 Super 120B A12B | **1.84s** | **1.59s** | **3.65s** | **4.98s** | **5/5** |
 
-The custom clean_user_input helper is instrumented using the LangSmith @traceable decorator.
+The 120B model delivered substantially lower observed latency in this benchmark while maintaining the same evaluation quality.
 
-Metadata includes:
+> These are observed benchmark results for the NVIDIA hosted endpoint and should not be interpreted as a guarantee of model latency in every environment.
 
-- model_name
-- user_id
-- app_version
-- session_id
-- thread_id
+## 🪙 Token Optimization
 
-LangSmith project:
+A 10-turn conversation was tested using full conversation history.
 
-technova-bot-sanjana
+### Full History
 
-## Model Configuration
+- Input tokens: **6,847**
+- Total tokens: **8,127**
 
-Primary model:
+### Recent History
 
-nvidia/nemotron-3.5-lightning-30b-a3b
+- Input tokens: **1,451**
+- Total tokens: **2,731**
 
-The application uses NVIDIA's OpenAI-compatible endpoint through ChatOpenAI.
+### Reduction
 
-Endpoint:
+- **78.81% input-token reduction**
+- **66.40% total-token reduction**
 
-https://integrate.api.nvidia.com/v1
+This demonstrates the impact of controlling conversation history in long-running sessions.
 
-This compatibility approach was used because the required NVIDIA model ID was not available through the installed ChatNVIDIA model catalog.
+## 💰 Cost Estimation
 
-Model configuration:
+Using the assignment's hypothetical rate of **$0.90 per 1M tokens** for the large model:
 
-- Temperature: 0
-- Maximum output tokens: 256
-- Thinking: Disabled
-
-## Part C - Latency Monitoring
-
-### Baseline Results
-
-| Metric | Result |
+| Scenario | Estimated Cost |
 |---|---:|
-| Average latency | 9.34 s |
-| P50 latency | 4.70 s |
-| P95 latency | 42.47 s |
-| Maximum latency | 55.91 s |
+| 10-turn full history | $0.007506 |
+| 10,000 conversations/day | $75.06/day |
+| 30-day month | $2,251.80/month |
+| 10-turn optimized | $0.002458 |
+| 10,000 optimized conversations/day | $24.58/day |
+| 30-day optimized month | $737.37/month |
 
-### Optimized Results
+These are **hypothetical assignment estimates**, not actual NVIDIA billing.
 
-| Metric | Result |
-|---|---:|
-| Average latency | 5.33 s |
-| P50 latency | 2.65 s |
-| P95 latency | 18.48 s |
-| Maximum latency | 28.27 s |
-
-### Improvement
-
-| Metric | Improvement |
-|---|---:|
-| Average latency | 42.9% |
-| P50 latency | 43.6% |
-| P95 latency | 56.5% |
-| Maximum latency | 49.4% |
-
-The optimization used a reduced maximum output token limit and disabled unnecessary model thinking.
-
-## Model Comparison
-
-30B Model:
-
-nvidia/nemotron-3.5-lightning-30b-a3b
-
-120B Model:
-
-nvidia/nemotron-3-super-120b-a12b
-
-| Metric | 30B | 120B |
-|---|---:|---:|
-| Average latency | 6.71 s | 1.30 s |
-| P50 latency | 3.20 s | 1.14 s |
-| P95 latency | 16.94 s | 2.29 s |
-| Maximum latency | 18.53 s | 2.82 s |
-| Evaluation accuracy | 100% | 100% |
-
-## Time to First Token
-
-Representative streaming measurements:
-
-| Model | TTFT |
-|---|---:|
-| 30B | 0.554 s |
-| 120B | 0.356 s |
-
-## Part D - Token Usage and Cost
-
-A 10-turn conversation was analyzed to measure token growth.
-
-### Token Usage
-
-| Metric | Tokens |
-|---|---:|
-| Input tokens | 8,178 |
-| Output tokens | 1,722 |
-| Total tokens | 9,900 |
-
-### Token Optimization
-
-| Metric | Reduction |
-|---|---:|
-| Input tokens | 77.1% |
-| Total tokens | 62.6% |
-
-The optimization reduced the amount of conversation history sent to the model while maintaining answer quality.
-
-### 10-Turn Cost
-
-| Model | Cost |
-|---|---:|
-| 30B | $0.001980 |
-| 120B | $0.008910 |
-
-### 20-Question Benchmark Cost
-
-| Model | Cost |
-|---|---:|
-| 30B | $0.004103 |
-| 120B | $0.018238 |
-
-### Estimated Cost at 10,000 Conversations per Day
-
-| Model | Daily Cost | Monthly Cost |
-|---|---:|---:|
-| 30B | $19.80 | $594 |
-| 120B | $89.10 | $2,673 |
-
-These are exercise estimates based on the hypothetical rate card provided in the assignment and are not actual NVIDIA billing prices.
-
-## Part E - Error Handling and Resilience
-
-Five fault scenarios were tested:
-
-1. Invalid model
-2. Invalid or missing API key
-3. Timeout
-4. Tool failure
-5. Bad user input
-
-### Invalid Model
-
-A non-existent model was intentionally configured.
-
-The application falls back to the backup model.
-
-### Invalid API Key
-
-A deliberately invalid API key was used.
-
-The application fails fast and returns a friendly user-facing message instead of repeatedly retrying the authentication failure.
-
-### Timeout
-
-A timeout condition was intentionally simulated.
-
-The application retries the request with backoff and returns a graceful message if the retries fail.
-
-### Tool Failure
-
-The order-status tool was intentionally made to fail during testing.
-
-The chatbot handles the tool failure and returns a user-friendly response instead of exposing an internal stack trace.
-
-### Bad User Input
-
-Invalid input was tested.
-
-The application provides guidance instead of exposing internal errors.
-
-## Fault-Injection Benchmark
+## 🛡️ Fault Tolerance
 
 A 20-request fault-injection benchmark was performed.
 
 | Metric | Result |
 |---|---:|
 | Total requests | 20 |
+| Normal requests | 10 |
+| Fault-injected requests | 10 |
 | Successful requests | 12 |
 | Failed requests | 8 |
-| Error rate | 40% |
+| Fault-injection error rate | **40.00%** |
 
-The 40% error rate represents a deliberate fault-injection benchmark and should not be interpreted as the normal production error rate.
+### Tested failure scenarios
 
-## Part F - Evaluation and Feedback
+- Invalid model → fallback model
+- Invalid API key → friendly failure
+- Timeout → retry/backoff
+- Tool failure → friendly failure
+- Bad input → validation response
 
-A LangSmith evaluation dataset containing 10 customer-support questions and reference answers was created.
+> The 40% error rate represents the deliberately fault-injected benchmark and is **not a normal production error rate**.
 
-The evaluation used an LLM-as-judge approach to score answer correctness.
+## 🧪 LangSmith Evaluation
 
-### Evaluation Results
+Evaluation dataset:
+
+```text
+technova-customer-support-eval
+```
+
+Dataset size:
+
+**10 examples**
 
 | Model | Correctness |
 |---|---:|
-| 30B | 100% |
-| 120B | 100% |
+| Nemotron 3.5 Lightning 30B | **100%** |
+| Nemotron 3 Super 120B A12B | **100%** |
 
-Both models achieved 100% correctness on the 10-example evaluation dataset.
+An LLM-as-a-judge evaluator was used to assess answer correctness.
 
-### Human Feedback
+Human feedback was also collected through LangSmith.
 
-Five positive user feedback ratings were attached to LangSmith runs using the user_rating feedback key.
+## 📈 Observability
 
-Positive human feedback:
+LangSmith was used to monitor:
 
-5 runs
-
-## Key Findings
-
-The 30B model achieved the same evaluation accuracy as the 120B model in the 10-example evaluation while having a substantially lower estimated cost.
-
-The 120B model showed lower measured latency in the model comparison benchmark.
-
-The 30B model provides a better cost-quality trade-off for a cost-sensitive customer-support deployment, while the 120B model may be considered when lower latency is prioritized and the additional cost is acceptable.
-
-## Security
-
-The following sensitive information must never be committed to GitHub:
-
-- NVIDIA API key
-- LangSmith API key
-- .env file
-
-The .gitignore file excludes .env, the virtual environment, Python cache files, and notebook checkpoints.
-
-## Results
-
-Benchmark results are stored in:
-
-results/summary.csv
-
-The results include:
-
-- Latency metrics
+- Full LangGraph execution trees
+- LLM calls
+- Tool calls
+- Guardrail execution
+- Latency
 - Token usage
-- Token optimization
-- Cost estimates
-- Fault-injection results
-- Model evaluation results
-- Human feedback count
+- Errors
+- Evaluation scores
+- User feedback
 
-## Running Experiments
+A custom production dashboard was created for:
 
-Latency experiments are stored in the experiments directory.
+- Average latency
+- Token usage
+- Error rate
 
-Token and cost experiments are stored in the experiments directory.
+An error-rate alert was also configured for monitoring.
 
-Run the Part E fault-injection benchmark using:
+## 🖥️ Streamlit UI
 
+The project includes a Streamlit interface with:
+
+- Customer-support chat
+- Conversation interaction
+- Helpful / Not Helpful feedback buttons
+- LangSmith feedback integration
+
+Run the UI with:
+
+```bash
+streamlit run app/ui.py
+```
+
+## 📁 Project Structure
+
+```text
+technova/
+│
+├── app/
+│   ├── graph.py
+│   ├── tools.py
+│   └── ui.py
+│
+├── experiments/
+│   ├── latency.py
+│   ├── part_d_tokens.py
+│   ├── part_d_optimization.py
+│   ├── part_e_error_rate.py
+│   └── evaluate_models.py
+│
+├── results/
+│   ├── summary.csv
+│   ├── latency_nemotron35_direct.csv
+│   └── latency_nemotron120b.csv
+│
+├── screenshots/
+│
+├── report.pdf
+├── README.md
+├── requirements.txt
+├── .env.example
+└── .gitignore
+```
+
+## ⚙️ Setup
+
+### 1. Clone the repository
+
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd technova
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+Activate it on Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure environment variables
+
+Create a `.env` file:
+
+```env
+NVIDIA_API_KEY=your_nvidia_api_key
+
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=your_langsmith_api_key
+LANGSMITH_PROJECT=technova-bot-your-name
+```
+
+**Never commit `.env` or API keys to GitHub.**
+
+Use `.env.example` as the template.
+
+### 5. Run the chatbot
+
+```bash
+python -m app.graph
+```
+
+### 6. Run the Streamlit UI
+
+```bash
+streamlit run app/ui.py
+```
+
+## 🔬 Run Experiments
+
+Latency benchmark:
+
+```bash
+python -m experiments.latency
+```
+
+Token benchmark:
+
+```bash
+python -m experiments.part_d_tokens
+```
+
+Token optimization:
+
+```bash
+python -m experiments.part_d_optimization
+```
+
+Fault-injection benchmark:
+
+```bash
 python -m experiments.part_e_error_rate
+```
 
-Run the model evaluation using:
+LangSmith evaluation:
 
+```bash
 python -m experiments.evaluate_models
+```
 
-Add LangSmith human feedback using:
+## 🔐 Security
 
-python -m experiments.add_feedback
+The repository excludes sensitive files through `.gitignore`.
 
-## Final Recommendation
+```text
+.env
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+```
 
-Based on the measured results, the 30B model is recommended for the initial TechNova deployment because:
+Before pushing to GitHub, verify that no NVIDIA or LangSmith API keys are present in tracked files.
 
-- It achieved 100% correctness in the evaluation dataset.
-- It has a substantially lower estimated cost.
-- It provides sufficient performance for the customer-support use case.
-- Token optimization further reduces operational cost.
+## 📄 Project Report
 
-The 120B model can be considered when lower latency is prioritized and the additional inference cost is acceptable.
+The complete project report contains:
 
-## Production Risks to Monitor
+- Architecture
+- LangSmith traces
+- Latency analysis
+- Token analysis
+- Cost estimation
+- Fault-tolerance testing
+- Model evaluation
+- Deployment recommendation
+- Monitoring and alerting
 
-### 1. Latency
+See:
 
-Monitor P95 latency continuously.
+```text
+report.pdf
+```
 
-Recommended alert:
+## 🎯 Key Takeaways
 
-P95 latency above 8 seconds for 5 consecutive minutes.
+This project demonstrates how to move beyond a basic LLM chatbot toward a more production-oriented AI application by combining:
 
-### 2. Error Rate
+**Agent orchestration + tool calling + memory + observability + evaluation + resilience + monitoring.**
 
-Monitor application and tool failures.
+## 👩‍💻 Author
 
-Recommended alert:
+**Gorli Sanjana**
 
-Error rate above 5% over a rolling production window.
+B.Tech Computer Science & Engineering  
+Rajiv Gandhi University of Knowledge Technologies (RGUKT)
 
-### 3. Token and Cost Growth
+---
 
-Monitor input-token growth caused by long conversations.
-
-Recommended alert:
-
-Average token usage increases by more than 25% compared with the established baseline.
-
-## Conclusion
-
-The TechNova chatbot demonstrates a production-oriented LangGraph architecture with tool calling, conversation memory, LangSmith observability, model benchmarking, token optimization, cost estimation, resilience testing, and automated evaluation.
-
-The experiments show that careful monitoring and token optimization can significantly improve latency and operational efficiency while maintaining answer quality.
+⭐ If you find this project useful, consider giving the repository a star.
