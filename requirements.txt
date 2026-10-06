@@ -1,0 +1,8 @@
+langchain
+langchain-core
+langgraph
+langchain-nvidia-ai-endpoints
+langchain-openai
+langsmith
+python-dotenv
+pandas

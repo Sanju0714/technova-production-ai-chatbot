@@ -1,0 +1,28 @@
+model,question,latency_seconds,answer
+Nemotron 3.5 Lightning 30B,Where is my order TN1001?,2.633587999967858,Your order **TN1001** for a **Laptop Pro 14** has been **shipped** and is estimated to arrive in **2 days**.
+Nemotron 3.5 Lightning 30B,Where is my order TN1002?,2.3021893999539316,Your order **TN1002** for **Noise-cancel Earbuds** is currently **Processing** with an estimated delivery in **5 days**.
+Nemotron 3.5 Lightning 30B,Where is my order TN1003?,15.00562940002419,Your order **TN1003** for a **Phone X** has been **delivered**. No estimated delivery time is available since the order has already arrived.
+Nemotron 3.5 Lightning 30B,What is the return policy?,3.200139799970202,"TechNova’s return policy allows returns within **30 days** of purchase, provided the item is in its original packaging. If you have a specific order you’d like to return, just let me know the order ID and I can help you check its status or guide you through the next steps."
+Nemotron 3.5 Lightning 30B,What is the warranty policy?,14.117393500055186,"TechNova’s warranty covers all electronics for **1 year from the date of purchase** against defects in materials or workmanship. If a product develops an issue within that period, you can request repair or replacement through our warranty service.
+
+For specific warranty claims or questions about a particular device, please provide the product model or your order number."
+Nemotron 3.5 Lightning 30B,What is the shipping policy?,18.52743969997391,"TechNova's shipping policy is as follows:
+
+- **Free shipping** is available for orders above **Rs. 999**.
+- **Standard delivery** takes **3‑5 days**.
+
+If you have a specific order you’d like to check, just provide the order ID and I can give you the estimated delivery time."
+Nemotron 3.5 Lightning 30B,How long does standard shipping take?,3.4586520000593737,Standard shipping with TechNova takes **3‑5 business days**. (Free shipping is offered on orders over Rs. 999.)
+Nemotron 3.5 Lightning 30B,Is shipping free?,1.9979598999489099,Free shipping is available for orders above Rs.999. Standard delivery takes 3‑5 days.
+Nemotron 3.5 Lightning 30B,Can I return an electronic product?,2.651631999993697,"Yes, TechNova accepts returns within **30 days** of purchase, provided the product is in its original packaging. If you have a specific order you’d like to return, please share the order ID and I can check its status and guide you through the return process."
+Nemotron 3.5 Lightning 30B,How long is the warranty?,3.1968102999962866,"TechNova’s standard warranty for electronics is **1 year** from the date of purchase, covering manufacturer defects. If you have a specific product or purchase in mind, let me know and I can check the exact terms for that item."
+Nemotron 3 Super 120B,Where is my order TN1001?,0.8408395999576896,Your order TN1001 (Laptop Pro 14) has been shipped and is estimated to arrive in 2 days.
+Nemotron 3 Super 120B,Where is my order TN1002?,1.357613299973309,Your order TN1002 for Noise-cancel Earbuds is currently **Processing** with an estimated delivery time of **5 days**.
+Nemotron 3 Super 120B,Where is my order TN1003?,1.5931591000407934,Your order TN1003 for the Phone X has been delivered. The estimated delivery time is not applicable as the order is already delivered.
+Nemotron 3 Super 120B,What is the return policy?,1.354184600058943,TechNova's return policy states that returns are accepted within 30 days in the original packaging.
+Nemotron 3 Super 120B,What is the warranty policy?,0.7689788000425324,TechNova's warranty policy states that electronics come with a 1-year manufacturer warranty.
+Nemotron 3 Super 120B,What is the shipping policy?,0.92245160008315,TechNova's shipping policy: Free shipping is available for orders above Rs.999. Standard delivery takes 3-5 days.
+Nemotron 3 Super 120B,How long does standard shipping take?,0.8160102999536321,Standard shipping at TechNova takes 3-5 days for delivery. Free shipping is available for orders above Rs.999.
+Nemotron 3 Super 120B,Is shipping free?,0.9122162000276148,Free shipping is available for orders above Rs.999. Standard delivery takes 3-5 days.
+Nemotron 3 Super 120B,Can I return an electronic product?,2.821125000016764,"Yes, you can return an electronic product to TechNova. Returns are accepted within 30 days of purchase, provided the item is in its original packaging. If you have a specific order you'd like to return, please provide your order ID and I can help you check the status or initiate the return process."
+Nemotron 3 Super 120B,How long is the warranty?,1.6395658999681473,TechNova electronics come with a 1-year manufacturer warranty.

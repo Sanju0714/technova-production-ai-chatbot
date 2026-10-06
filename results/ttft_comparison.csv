@@ -1,0 +1,3 @@
+model,ttft_seconds,total_latency_seconds
+Nemotron 3.5 Lightning 30B,0.5539657999761403,1.251868800027296
+Nemotron 3 Super 120B,0.3557831000071019,1.7179994999896735

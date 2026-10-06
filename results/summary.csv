@@ -1,0 +1,38 @@
+part,metric,value,unit
+C,30B Average Latency,18.85,seconds
+C,30B P50 Latency,11.77,seconds
+C,30B P95 Latency,61.32,seconds
+C,30B Max Latency,89.82,seconds
+C,120B Average Latency,1.84,seconds
+C,120B P50 Latency,1.59,seconds
+C,120B P95 Latency,3.65,seconds
+C,120B Max Latency,4.98,seconds
+C,30B Answer Quality,5,score_1_to_5
+C,120B Answer Quality,5,score_1_to_5
+C,30B TTFT,0.554,seconds
+C,120B TTFT,0.356,seconds
+D,120B 10-Turn Input Tokens,7060,tokens
+D,120B 10-Turn Output Tokens,1280,tokens
+D,120B 10-Turn Total Tokens,8340,tokens
+D,120B Input Token Growth,3251.22,%
+D,120B Full History Input Tokens,6847,tokens
+D,120B Recent History Input Tokens,1451,tokens
+D,120B Full History Total Tokens,8127,tokens
+D,120B Recent History Total Tokens,2731,tokens
+D,Input Token Reduction,78.81,%
+D,Total Token Reduction,66.40,%
+D,120B 10-Turn Full History Cost,0.007506,USD
+D,120B 10K Conversations Daily Cost,75.06,USD/day
+D,120B 10K Conversations Monthly Cost,2251.80,USD/month
+D,120B 10-Turn Optimized Cost,0.002458,USD
+D,120B 10K Optimized Daily Cost,24.58,USD/day
+D,120B 10K Optimized Monthly Cost,737.37,USD/month
+E,Error Benchmark Requests,20,requests
+E,Successful Requests,12,requests
+E,Failed Requests,8,requests
+E,Error Rate,40,%
+E,Error Rate Type,Fault-injection benchmark,
+F,Evaluation Dataset Size,10,examples
+F,30B Evaluation Accuracy,100,%
+F,120B Evaluation Accuracy,100,%
+F,Positive Human Feedback Runs,5,runs

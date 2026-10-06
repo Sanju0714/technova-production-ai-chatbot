@@ -1,0 +1,2 @@
+model,input_tokens,output_tokens,total_tokens,input_cost_usd,output_cost_usd,question_20_cost_usd
+Nemotron 3 Super 120B,957,46,1003,0.0008613,4.1400000000000003e-05,0.0009027

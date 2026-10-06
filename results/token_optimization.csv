@@ -1,0 +1,11 @@
+turn,question,input_tokens,output_tokens,total_tokens
+1,Where is my order TN1001?,26,138,164
+2,What was the item in that order?,169,132,301
+3,When will it arrive?,160,138,298
+4,What is the return policy?,167,139,306
+5,What is the warranty policy?,168,148,316
+6,What is the shipping policy?,177,150,327
+7,Is shipping free?,177,217,394
+8,How many days do I have to return an item?,251,256,507
+9,Does TechNova provide a manufacturer warranty?,288,256,544
+10,Tell me about TechNova's shipping.,288,256,544
