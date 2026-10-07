@@ -44,6 +44,27 @@ st.set_page_config(
 
 
 # ---------------------------------------------------------
+# Compact sidebar spacing
+# ---------------------------------------------------------
+
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebarContent"] {
+        padding-top: 0.5rem;
+    }
+
+    [data-testid="stSidebarHeader"] {
+        height: 0rem;
+        min-height: 0rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# ---------------------------------------------------------
 # Session state
 # ---------------------------------------------------------
 
@@ -73,7 +94,7 @@ with st.sidebar:
 
 
     # -----------------------------------------------------
-    # Demo Questions - placed near the top
+    # Demo Questions
     # -----------------------------------------------------
 
     st.subheader("🧪 Try These Questions")
@@ -95,7 +116,10 @@ with st.sidebar:
         )
 
 
-    with st.expander("📋 Policy Questions"):
+    with st.expander(
+        "📋 Policy Questions",
+        expanded=False
+    ):
         st.markdown(
             """
             **Try:**
@@ -111,7 +135,10 @@ with st.sidebar:
         )
 
 
-    with st.expander("🧠 Memory Test"):
+    with st.expander(
+        "🧠 Memory Test",
+        expanded=False
+    ):
         st.markdown(
             """
             Ask these questions one after another:
@@ -125,7 +152,10 @@ with st.sidebar:
         )
 
 
-    with st.expander("🛡️ Guardrail & Error Tests"):
+    with st.expander(
+        "🛡️ Guardrail & Error Tests",
+        expanded=False
+    ):
         st.markdown(
             """
             **Unknown order:**
@@ -244,7 +274,7 @@ for message in st.session_state.messages:
 
 
         # -------------------------------------------------
-        # Feedback buttons for assistant responses
+        # Feedback buttons
         # -------------------------------------------------
 
         if (
