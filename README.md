@@ -15,6 +15,29 @@ The application is deployed using Streamlit Community Cloud and demonstrates:
 - Conversation memory
 - User feedback collection
 
+## 🧪 How to Test the Demo
+
+Try these sample questions in the deployed chatbot:
+
+### 📦 Order Questions
+- What is the status of order TN1001?
+- What is the item in order TN1002?
+- What is the status of order TN1003?
+
+### 📋 Policy Questions
+- What is the return policy?
+- What is the warranty policy?
+- Is shipping free for orders above Rs.999?
+- How long does standard delivery take?
+
+### 🧠 Memory Test
+1. What is the status of order TN1001?
+2. What was the item in that order?
+
+### 🛡️ Guardrail & Error Testing
+- What is the status of order TN9999?
+- What is the weather today?
+
 ## 🚀 Features
 
 - **LangGraph agent workflow** with tool calling
