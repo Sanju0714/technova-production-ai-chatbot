@@ -4,6 +4,17 @@ A production-oriented customer support chatbot built with **LangGraph, LangChain
 
 The chatbot supports order-status lookup, returns, warranty, and shipping questions while maintaining conversation memory, handling failures, tracing executions, evaluating response quality, and monitoring latency, token usage, and errors.
 
+## 🚀 Live Demo
+
+🔗 **Live App:** [TechNova Customer Support Chatbot](https://ec3gerjka29y5jlael2wfu.streamlit.app/)
+
+The application is deployed using Streamlit Community Cloud and demonstrates:
+- AI-powered customer support
+- Order status lookup
+- Returns, warranty & shipping policies
+- Conversation memory
+- User feedback collection
+
 ## 🚀 Features
 
 - **LangGraph agent workflow** with tool calling
