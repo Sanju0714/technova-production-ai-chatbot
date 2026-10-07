@@ -62,7 +62,6 @@ st.caption(
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-
 if "thread_id" not in st.session_state:
     st.session_state.thread_id = (
         f"streamlit-{int(time.time())}"
@@ -86,7 +85,10 @@ for message in st.session_state.messages:
 
         st.markdown(message["content"])
 
+        # -------------------------------------------------
         # Show feedback buttons for assistant messages
+        # -------------------------------------------------
+
         if (
             message["role"] == "assistant"
             and message.get("run_id")
@@ -94,9 +96,9 @@ for message in st.session_state.messages:
 
             col1, col2 = st.columns(2)
 
-            # -----------------------------
+            # -------------------------------------------------
             # Positive feedback
-            # -----------------------------
+            # -------------------------------------------------
 
             with col1:
 
@@ -127,9 +129,9 @@ for message in st.session_state.messages:
                             f"Could not send feedback: {error}"
                         )
 
-            # -----------------------------
+            # -------------------------------------------------
             # Negative feedback
-            # -----------------------------
+            # -------------------------------------------------
 
             with col2:
 
@@ -184,6 +186,7 @@ if user_question:
     )
 
     with st.chat_message("user"):
+
         st.markdown(user_question)
 
 
@@ -241,7 +244,6 @@ if user_question:
                 answer = (
                     result["messages"][-1].content
                 )
-
 
                 st.markdown(answer)
 
@@ -343,9 +345,8 @@ with st.sidebar:
 
     st.header("🛒 TechNova")
 
-
     st.write(
-        "Customer support assistant for:"
+        "AI customer support assistant for:"
     )
 
     st.write("• Order status")
@@ -357,10 +358,123 @@ with st.sidebar:
     st.divider()
 
 
+    # -----------------------------------------------------
+    # Demo Questions
+    # -----------------------------------------------------
+
+    st.subheader("🧪 Try These Questions")
+
+
+    with st.expander(
+        "📦 Order Questions",
+        expanded=True
+    ):
+
+        st.markdown(
+            """
+            **Try:**
+
+            • What is the status of order **TN1001**?
+
+            • What is the item in order **TN1002**?
+
+            • What is the status of order **TN1003**?
+            """
+        )
+
+
+    with st.expander(
+        "📋 Policy Questions"
+    ):
+
+        st.markdown(
+            """
+            **Try:**
+
+            • What is the return policy?
+
+            • What is the warranty policy?
+
+            • Is shipping free for orders above Rs.999?
+
+            • How long does standard delivery take?
+            """
+        )
+
+
+    with st.expander(
+        "🧠 Memory Test"
+    ):
+
+        st.markdown(
+            """
+            Ask these questions one after another:
+
+            **1.** What is the status of order TN1001?
+
+            **2.** What was the item in that order?
+
+            The second question tests conversation memory.
+            """
+        )
+
+
+    with st.expander(
+        "🛡️ Guardrail & Error Tests"
+    ):
+
+        st.markdown(
+            """
+            **Unknown order:**
+
+            • What is the status of order **TN9999**?
+
+            **Off-topic question:**
+
+            • What is the weather today?
+
+            These demonstrate error handling and
+            the chatbot's guardrail.
+            """
+        )
+
+
+    st.divider()
+
+
+    # -----------------------------------------------------
+    # Available Demo Data
+    # -----------------------------------------------------
+
+    st.subheader("📌 Sample Orders")
+
+    st.markdown(
+        """
+        **TN1001** — Laptop Pro 14  
+        **TN1002** — Noise-cancel Earbuds  
+        **TN1003** — Phone X
+        """
+    )
+
+
+    st.divider()
+
+
+    # -----------------------------------------------------
+    # Model
+    # -----------------------------------------------------
+
     st.subheader("Model")
 
     st.code(MODEL_NAME)
 
+
+    st.divider()
+
+
+    # -----------------------------------------------------
+    # Session
+    # -----------------------------------------------------
 
     st.subheader("Session")
 
@@ -377,7 +491,8 @@ with st.sidebar:
     # -----------------------------------------------------
 
     if st.button(
-        "🗑️ Clear conversation"
+        "🗑️ Clear conversation",
+        use_container_width=True
     ):
 
         st.session_state.messages = []
