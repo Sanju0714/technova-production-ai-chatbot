@@ -64,18 +64,6 @@ langsmith_client = Client()
 
 
 # ---------------------------------------------------------
-# Page title
-# ---------------------------------------------------------
-
-st.title("🛒 TechNova Customer Support")
-
-st.caption(
-    "AI-powered customer support using "
-    "LangGraph + NVIDIA + LangSmith"
-)
-
-
-# ---------------------------------------------------------
 # Sidebar
 # ---------------------------------------------------------
 
@@ -83,27 +71,17 @@ with st.sidebar:
 
     st.header("🛒 TechNova")
 
-    st.write(
-        "AI customer support assistant for:"
-    )
-
-    st.write("• Order status")
-    st.write("• Returns")
-    st.write("• Warranty")
-    st.write("• Shipping")
-
 
     # -----------------------------------------------------
-    # Demo Questions
+    # Demo Questions - placed near the top
     # -----------------------------------------------------
 
     st.subheader("🧪 Try These Questions")
 
     with st.expander(
         "📦 Order Questions",
-        expanded=True
+        expanded=False
     ):
-
         st.markdown(
             """
             **Try:**
@@ -117,10 +95,7 @@ with st.sidebar:
         )
 
 
-    with st.expander(
-        "📋 Policy Questions"
-    ):
-
+    with st.expander("📋 Policy Questions"):
         st.markdown(
             """
             **Try:**
@@ -136,10 +111,7 @@ with st.sidebar:
         )
 
 
-    with st.expander(
-        "🧠 Memory Test"
-    ):
-
+    with st.expander("🧠 Memory Test"):
         st.markdown(
             """
             Ask these questions one after another:
@@ -153,10 +125,7 @@ with st.sidebar:
         )
 
 
-    with st.expander(
-        "🛡️ Guardrail & Error Tests"
-    ):
-
+    with st.expander("🛡️ Guardrail & Error Tests"):
         st.markdown(
             """
             **Unknown order:**
@@ -171,6 +140,20 @@ with st.sidebar:
             the chatbot's guardrail.
             """
         )
+
+
+    # -----------------------------------------------------
+    # Supported topics
+    # -----------------------------------------------------
+
+    st.write(
+        "AI customer support assistant for:"
+    )
+
+    st.write("• Order status")
+    st.write("• Returns")
+    st.write("• Warranty")
+    st.write("• Shipping")
 
 
     st.divider()
@@ -228,7 +211,6 @@ with st.sidebar:
         "🗑️ Clear conversation",
         use_container_width=True
     ):
-
         st.session_state.messages = []
 
         st.session_state.thread_id = (
@@ -236,6 +218,18 @@ with st.sidebar:
         )
 
         st.rerun()
+
+
+# ---------------------------------------------------------
+# Main page
+# ---------------------------------------------------------
+
+st.title("🛒 TechNova Customer Support")
+
+st.caption(
+    "AI-powered customer support using "
+    "LangGraph + NVIDIA + LangSmith"
+)
 
 
 # ---------------------------------------------------------
@@ -247,6 +241,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
 
         st.markdown(message["content"])
+
 
         # -------------------------------------------------
         # Feedback buttons for assistant responses
@@ -351,7 +346,6 @@ if user_question:
     )
 
     with st.chat_message("user"):
-
         st.markdown(user_question)
 
 
@@ -360,7 +354,6 @@ if user_question:
     # -----------------------------------------------------
 
     config = {
-
         "configurable": {
             "thread_id": st.session_state.thread_id
         },
@@ -439,7 +432,6 @@ if user_question:
                         )
                     )
 
-
                     for run in runs:
 
                         if run.name == "LangGraph":
@@ -447,7 +439,6 @@ if user_question:
                             run_id = str(run.id)
 
                             break
-
 
                 except Exception:
 
@@ -491,7 +482,6 @@ if user_question:
                 )
 
                 st.error(answer)
-
 
                 st.session_state.messages.append(
                     {
