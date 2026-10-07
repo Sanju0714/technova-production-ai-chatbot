@@ -253,6 +253,17 @@ Run the UI with:
 streamlit run app/ui.py
 ```
 
+## 📸 Screenshots
+
+### LangSmith — Agent & Tool Tracing
+<img width="2560" height="1262" alt="1" src="https://github.com/user-attachments/assets/b1fa5b86-ce7f-43b9-86fa-847127f62814" />
+
+### Streamlit Cloud — Chatbot & User Feedback
+<img width="2558" height="1268" alt="2" src="https://github.com/user-attachments/assets/3de1aeba-7f02-4a69-a778-054f33ad0d17" />
+
+### LangSmith — Production Monitoring
+<img width="2560" height="1344" alt="3  langsmith_dashboard_metrics" src="https://github.com/user-attachments/assets/78f93a6b-c161-4296-b88f-700cc47f3036" />
+
 ## 📁 Project Structure
 
 ```text
