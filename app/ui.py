@@ -1,9 +1,10 @@
+
 import os
 import sys
 import time
 
 # ---------------------------------------------------------
-# Project root
+# Make project root available for imports
 # ---------------------------------------------------------
 
 PROJECT_ROOT = os.path.dirname(
@@ -26,53 +27,20 @@ from app.graph import graph, MODEL_NAME
 
 
 # ---------------------------------------------------------
-# Load environment
+# Environment
 # ---------------------------------------------------------
 
 load_dotenv()
 
 
 # ---------------------------------------------------------
-# Page configuration
+# Streamlit page configuration
 # ---------------------------------------------------------
 
 st.set_page_config(
     page_title="TechNova Customer Support",
     page_icon="🛒",
     layout="centered"
-)
-
-
-# ---------------------------------------------------------
-# Compact layout
-# ---------------------------------------------------------
-
-st.markdown(
-    """
-    <style>
-
-    /* Sidebar spacing */
-    [data-testid="stSidebarContent"] {
-        padding-top: 0.5rem;
-    }
-
-    [data-testid="stSidebarHeader"] {
-        height: 0rem;
-        min-height: 0rem;
-    }
-
-    /* Main content spacing */
-    [data-testid="stMainBlockContainer"] {
-        padding-top: 1.5rem;
-    }
-
-    [data-testid="stMainBlockContainer"] h1 {
-        margin-top: 0rem;
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True
 )
 
 
@@ -90,7 +58,7 @@ if "thread_id" not in st.session_state:
 
 
 # ---------------------------------------------------------
-# LangSmith
+# LangSmith client
 # ---------------------------------------------------------
 
 langsmith_client = Client()
@@ -104,37 +72,37 @@ with st.sidebar:
 
     st.header("🛒 TechNova")
 
-
-    # =====================================================
-    # TRY THESE QUESTIONS
-    # =====================================================
+    # -----------------------------------------------------
+    # Demo Questions
+    # -----------------------------------------------------
 
     st.subheader("🧪 Try These Questions")
-
 
     with st.expander(
         "📦 Order Questions",
         expanded=False
     ):
-
         st.markdown(
             """
             **Try:**
 
             • What is the status of order **TN1001**?
 
-            • What is the item in order **TN1002**?
+            • What is the item in order **TN1005**?
 
-            • What is the status of order **TN1003**?
+            • Check order **TN1010**.
+
+            • Has order **TN1015** been delivered?
+
+            • What is the status of order **TN1008**?
+
+            • Track my order **TN1012**.
+
+            • What is the status of order **TN1020**?
             """
         )
 
-
-    with st.expander(
-        "📋 Policy Questions",
-        expanded=False
-    ):
-
+    with st.expander("📋 Policy Questions"):
         st.markdown(
             """
             **Try:**
@@ -146,15 +114,24 @@ with st.sidebar:
             • Is shipping free for orders above Rs.999?
 
             • How long does standard delivery take?
+
+            • How long do refunds take?
+
+            • What payment methods do you accept?
+
+            • Can I exchange a product?
+
+            • What should I do if I receive a damaged product?
+
+            • What happens if my delivery is late?
+
+            • What is the cancellation policy?
+
+            • What is the replacement policy?
             """
         )
 
-
-    with st.expander(
-        "🧠 Memory Test",
-        expanded=False
-    ):
-
+    with st.expander("🧠 Memory Test"):
         st.markdown(
             """
             Ask these questions one after another:
@@ -167,12 +144,7 @@ with st.sidebar:
             """
         )
 
-
-    with st.expander(
-        "🛡️ Guardrail & Error Tests",
-        expanded=False
-    ):
-
+    with st.expander("🛡️ Guardrail & Error Tests"):
         st.markdown(
             """
             **Unknown order:**
@@ -188,27 +160,28 @@ with st.sidebar:
             """
         )
 
-
-    # =====================================================
-    # SUPPORTED TOPICS
-    # =====================================================
+    # -----------------------------------------------------
+    # Supported topics
+    # -----------------------------------------------------
 
     st.write(
         "AI customer support assistant for:"
     )
 
     st.write("• Order status")
-    st.write("• Returns")
+    st.write("• Returns and refunds")
     st.write("• Warranty")
-    st.write("• Shipping")
-
+    st.write("• Shipping and delivery")
+    st.write("• Payments")
+    st.write("• Cancellations")
+    st.write("• Exchanges and replacements")
+    st.write("• Damaged products")
 
     st.divider()
 
-
-    # =====================================================
-    # SAMPLE ORDERS
-    # =====================================================
+    # -----------------------------------------------------
+    # Available Demo Data
+    # -----------------------------------------------------
 
     st.subheader("📌 Sample Orders")
 
@@ -216,31 +189,33 @@ with st.sidebar:
         """
         **TN1001** — Laptop Pro 14
 
-        **TN1002** — Noise-cancel Earbuds
+        **TN1005** — Gaming Laptop G15
 
-        **TN1003** — Phone X
+        **TN1010** — Tablet Pro 11
+
+        **TN1015** — Laptop Pro 16
+
+        **TN1020** — Portable Bluetooth Speaker
+
+        *20 sample orders are available (TN1001–TN1020).*
         """
     )
 
-
     st.divider()
 
-
-    # =====================================================
-    # MODEL
-    # =====================================================
+    # -----------------------------------------------------
+    # Model
+    # -----------------------------------------------------
 
     st.subheader("Model")
 
     st.code(MODEL_NAME)
 
-
     st.divider()
 
-
-    # =====================================================
-    # SESSION
-    # =====================================================
+    # -----------------------------------------------------
+    # Session
+    # -----------------------------------------------------
 
     st.subheader("Session")
 
@@ -248,20 +223,16 @@ with st.sidebar:
         st.session_state.thread_id
     )
 
-
     st.divider()
 
-
-    # =====================================================
-    # CLEAR CONVERSATION
-    # =====================================================
+    # -----------------------------------------------------
+    # Clear conversation
+    # -----------------------------------------------------
 
     if st.button(
         "🗑️ Clear conversation",
-        use_container_width=True,
-        key="clear_conversation_button"
+        use_container_width=True
     ):
-
         st.session_state.messages = []
 
         st.session_state.thread_id = (
@@ -272,7 +243,7 @@ with st.sidebar:
 
 
 # ---------------------------------------------------------
-# Main title
+# Main page
 # ---------------------------------------------------------
 
 st.title("🛒 TechNova Customer Support")
@@ -284,23 +255,18 @@ st.caption(
 
 
 # ---------------------------------------------------------
-# Display conversation history
+# Display previous conversation
 # ---------------------------------------------------------
 
-for message_index, message in enumerate(
-    st.session_state.messages
-):
+for message in st.session_state.messages:
 
     with st.chat_message(message["role"]):
 
-        st.markdown(
-            message["content"]
-        )
+        st.markdown(message["content"])
 
-
-        # =================================================
-        # Assistant feedback
-        # =================================================
+        # -------------------------------------------------
+        # Feedback buttons for assistant responses
+        # -------------------------------------------------
 
         if (
             message["role"] == "assistant"
@@ -308,7 +274,6 @@ for message_index, message in enumerate(
         ):
 
             col1, col2 = st.columns(2)
-
 
             # -------------------------------------------------
             # Helpful
@@ -318,7 +283,7 @@ for message_index, message in enumerate(
 
                 if st.button(
                     "👍 Helpful",
-                    key=f"helpful_{message_index}_{message['run_id']}"
+                    key=f"up_{message['run_id']}"
                 ):
 
                     try:
@@ -343,7 +308,6 @@ for message_index, message in enumerate(
                             f"Could not send feedback: {error}"
                         )
 
-
             # -------------------------------------------------
             # Not helpful
             # -------------------------------------------------
@@ -352,7 +316,7 @@ for message_index, message in enumerate(
 
                 if st.button(
                     "👎 Not helpful",
-                    key=f"not_helpful_{message_index}_{message['run_id']}"
+                    key=f"down_{message['run_id']}"
                 ):
 
                     try:
@@ -387,15 +351,11 @@ user_question = st.chat_input(
 )
 
 
-# ---------------------------------------------------------
-# Process user question
-# ---------------------------------------------------------
-
 if user_question:
 
-    # =====================================================
-    # Save user message
-    # =====================================================
+    # -----------------------------------------------------
+    # Display user message
+    # -----------------------------------------------------
 
     st.session_state.messages.append(
         {
@@ -404,22 +364,14 @@ if user_question:
         }
     )
 
-
-    # =====================================================
-    # Display user message
-    # =====================================================
-
     with st.chat_message("user"):
-
         st.markdown(user_question)
 
-
-    # =====================================================
+    # -----------------------------------------------------
     # LangGraph configuration
-    # =====================================================
+    # -----------------------------------------------------
 
     config = {
-
         "configurable": {
             "thread_id": st.session_state.thread_id
         },
@@ -438,10 +390,9 @@ if user_question:
         ]
     }
 
-
-    # =====================================================
-    # Generate response
-    # =====================================================
+    # -----------------------------------------------------
+    # Run chatbot
+    # -----------------------------------------------------
 
     with st.chat_message("assistant"):
 
@@ -460,18 +411,15 @@ if user_question:
                     config=config
                 )
 
-
                 # -------------------------------------------------
-                # Get final assistant response
+                # Get final response
                 # -------------------------------------------------
 
-                answer = result[
-                    "messages"
-                ][-1].content
-
+                answer = (
+                    result["messages"][-1].content
+                )
 
                 st.markdown(answer)
-
 
                 # -------------------------------------------------
                 # Give LangSmith time to record the run
@@ -479,9 +427,8 @@ if user_question:
 
                 time.sleep(1)
 
-
                 # -------------------------------------------------
-                # Find LangGraph run
+                # Find latest LangGraph run
                 # -------------------------------------------------
 
                 run_id = None
@@ -499,25 +446,20 @@ if user_question:
                         )
                     )
 
-
                     for run in runs:
 
                         if run.name == "LangGraph":
 
-                            run_id = str(
-                                run.id
-                            )
+                            run_id = str(run.id)
 
                             break
-
 
                 except Exception:
 
                     run_id = None
 
-
                 # -------------------------------------------------
-                # Save assistant message
+                # Store assistant response
                 # -------------------------------------------------
 
                 st.session_state.messages.append(
@@ -528,9 +470,8 @@ if user_question:
                     }
                 )
 
-
                 # -------------------------------------------------
-                # LangSmith indicator
+                # LangSmith status
                 # -------------------------------------------------
 
                 if run_id:
@@ -539,12 +480,28 @@ if user_question:
                         "✓ Response traced in LangSmith"
                     )
 
+            # except Exception:
 
-            except Exception:
+            #     # -------------------------------------------------
+            #     # Friendly failure message
+            #     # -------------------------------------------------
 
-                # -------------------------------------------------
-                # Friendly error
-                # -------------------------------------------------
+            #     answer = (
+            #         "I'm sorry, but I'm currently "
+            #         "unable to process your request. "
+            #         "Please try again later."
+            #     )
+
+            #     st.error(answer)
+
+            #     st.session_state.messages.append(
+            #         {
+            #             "role": "assistant",
+            #             "content": answer,
+            #             "run_id": None
+            #         }
+            #     )
+            except Exception as e:
 
                 answer = (
                     "I'm sorry, but I'm currently "
@@ -552,9 +509,8 @@ if user_question:
                     "Please try again later."
                 )
 
-
                 st.error(answer)
-
+                st.exception(e)
 
                 st.session_state.messages.append(
                     {
