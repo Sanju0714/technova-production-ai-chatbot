@@ -1,6 +1,7 @@
 
 import os
 
+import streamlit as st
 from dotenv import load_dotenv
 from langsmith import traceable
 
@@ -13,7 +14,33 @@ from langgraph.checkpoint.memory import MemorySaver
 
 from app.tools import get_order_status, get_policy
 
+
+# ============================================================
+# ENVIRONMENT CONFIGURATION
+# ============================================================
+
 load_dotenv()
+
+
+def get_nvidia_api_key():
+    """Get NVIDIA API key from Streamlit Secrets or local .env."""
+
+    try:
+        api_key = st.secrets.get("NVIDIA_API_KEY")
+    except Exception:
+        api_key = None
+
+    if not api_key:
+        api_key = os.getenv("NVIDIA_API_KEY")
+
+    if not api_key:
+        raise ValueError(
+            "NVIDIA_API_KEY is missing. "
+            "Add it to Streamlit Cloud Secrets or your local .env file."
+        )
+
+    return api_key
+
 
 # ============================================================
 # NVIDIA MODEL CONFIGURATION
@@ -24,7 +51,7 @@ MODEL_NAME = "nvidia/nemotron-3.5-lightning-30b-a3b"
 llm = ChatOpenAI(
     model=MODEL_NAME,
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key=os.getenv("NVIDIA_API_KEY"),
+    api_key=get_nvidia_api_key(),
     temperature=0,
     max_tokens=200,
     extra_body={
@@ -33,6 +60,7 @@ llm = ChatOpenAI(
         }
     }
 )
+
 
 # ============================================================
 # AVAILABLE TOOLS
@@ -44,6 +72,7 @@ tools = [
 ]
 
 llm_with_tools = llm.bind_tools(tools)
+
 
 # ============================================================
 # SYSTEM PROMPT
@@ -77,6 +106,7 @@ you could not retrieve the requested information.
 
 Be helpful, professional, and concise.
 """
+
 
 # ============================================================
 # CLEAN USER INPUT
