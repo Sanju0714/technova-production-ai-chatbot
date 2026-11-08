@@ -1,3 +1,4 @@
+
 import os
 
 from dotenv import load_dotenv
@@ -14,14 +15,18 @@ from app.tools import get_order_status, get_policy
 
 load_dotenv()
 
-MODEL_NAME = "nvidia/nemotron-3-super-120b-a12b"
+# ============================================================
+# NVIDIA MODEL CONFIGURATION
+# ============================================================
+
+MODEL_NAME = "nvidia/nemotron-3.5-lightning-30b-a3b"
 
 llm = ChatOpenAI(
     model=MODEL_NAME,
     base_url="https://integrate.api.nvidia.com/v1",
     api_key=os.getenv("NVIDIA_API_KEY"),
     temperature=0,
-    max_tokens=128,
+    max_tokens=200,
     extra_body={
         "chat_template_kwargs": {
             "enable_thinking": False
@@ -29,12 +34,20 @@ llm = ChatOpenAI(
     }
 )
 
+# ============================================================
+# AVAILABLE TOOLS
+# ============================================================
+
 tools = [
     get_order_status,
     get_policy
 ]
 
 llm_with_tools = llm.bind_tools(tools)
+
+# ============================================================
+# SYSTEM PROMPT
+# ============================================================
 
 SYSTEM_PROMPT = """
 You are the TechNova customer support assistant.
@@ -47,6 +60,13 @@ You can help customers with:
 - Returns
 - Warranty
 - Shipping
+- Refunds
+- Cancellation
+- Payment
+- Exchange
+- Damaged products
+- Late delivery
+- Replacement
 
 Use the available tools whenever you need order or policy information.
 
@@ -58,16 +78,26 @@ you could not retrieve the requested information.
 Be helpful, professional, and concise.
 """
 
+# ============================================================
+# CLEAN USER INPUT
+# ============================================================
+
 @traceable(name="clean_user_input")
 def clean_user_input(message: str) -> str:
     """Clean and normalize user input."""
     return message.strip()
 
 
+# ============================================================
+# AGENT NODE
+# ============================================================
+
 def agent(state: MessagesState):
+
     cleaned_messages = []
 
     for message in state["messages"]:
+
         if isinstance(message.content, str):
             message.content = clean_user_input(message.content)
 
@@ -84,10 +114,16 @@ def agent(state: MessagesState):
     }
 
 
+# ============================================================
+# LANGGRAPH WORKFLOW
+# ============================================================
+
 builder = StateGraph(MessagesState)
 
+# Add agent node
 builder.add_node("agent", agent)
 
+# Add tool execution node
 builder.add_node(
     "tools",
     ToolNode(
@@ -96,6 +132,7 @@ builder.add_node(
     )
 )
 
+# Define workflow
 builder.add_edge(START, "agent")
 
 builder.add_conditional_edges(
@@ -105,12 +142,21 @@ builder.add_conditional_edges(
 
 builder.add_edge("tools", "agent")
 
+
+# ============================================================
+# MEMORY AND GRAPH COMPILATION
+# ============================================================
+
 memory = MemorySaver()
 
 graph = builder.compile(
     checkpointer=memory
 )
 
+
+# ============================================================
+# TERMINAL TESTING
+# ============================================================
 
 if __name__ == "__main__":
 
